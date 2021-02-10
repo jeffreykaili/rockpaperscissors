@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<head> 
+    <link rel ="stylesheet" href = "style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <title>Multiplayer Rock Paper Scissors</title>
+</head>
+
+<body>
+
+    <div class = "game-screen"> 
+        <button id = "rock"> Rock </button>
+        <button id = "paper"> Paper </button>
+        <button id = "scissors"> Scissors </button>
+    </div>
+
+    <div class = "waiting-screen">
+        <h1> Waiting for other player to select their move. </h1>
+    </div>
+
+    <div class = "win-screen"> 
+        <h1> You Win! </h1>
+    </div>
+
+    <div class = "lose-screen">
+        <h1> You Lose! </h1>
+    </div>
+
+    <div class = "draw-screen">
+        <h1> It's a draw! </h1>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
+</body>

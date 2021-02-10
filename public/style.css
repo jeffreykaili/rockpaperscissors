@@ -1,0 +1,40 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+
+body {
+	height: 100vh;
+	display: flex;
+	justify-content: center; 
+	flex-direction: column;
+	align-items: center;
+	background: linear-gradient(rgb(209, 145, 60), rgb(255, 209, 148));
+	font-family: 'Poppins', sans-serif;
+}
+
+button {
+    font-family: 'Poppins'; 
+    font-size: 45px; 
+    color: white; 
+    font-weight: bolder; 
+    padding: 15px 30px 15px 30px; 
+    margin: 15px; 
+    border: 0.1em solid white;
+    background-color: transparent; 
+}
+
+button:hover {
+    background-color: white; 
+    color: rgb(209, 145, 60); 
+    cursor: pointer; 
+}
+
+.waiting-screen, .win-screen, .lose-screen, .draw-screen {
+    font-family: 'Poppins'; 
+    font-size: 35px; 
+    align-items: center; 
+    text-align: center;
+    display: none; 
+}
