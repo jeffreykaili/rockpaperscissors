@@ -12,14 +12,29 @@ const {moves, gameMoves} = require("./util/gameInfo");
 io.on("connection", client => {
     console.log("New User Connected! Total User Count:",++userCount); 
     const playerID = userCount-1; 
-    client.emit("set-playerID", playerID);  
-
+    client.on("queue-game", function() {
+        let roomsz = io.sockets.adapter.rooms.get("game-room"); 
+        roomsz = (roomsz==undefined?0:roomsz.size); 
+        console.log("number of people in room:", roomsz); 
+        if(roomsz < 2) {
+            client.join("game-room"); 
+            client.emit("set-playerID", playerID);  
+            roomsz = io.sockets.adapter.rooms.get("game-room").size; 
+            console.log("NEW number of people in room:", roomsz); 
+            if(roomsz == 1) {
+                client.emit("queue-wait"); 
+            }
+        }
+        if(roomsz == 2) {
+            io.to("game-room").emit("game-start"); 
+        }
+    });  
     client.on("choice-rock", function(){
         console.log("Player", playerID, "chose rock"); 
         gameMoves[playerID] = "rock"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.sockets.emit(res, playerID); 
+            io.to("game-room").emit(res, playerID); 
         } else {
             client.emit("waiting-screen"); 
         }
@@ -29,7 +44,7 @@ io.on("connection", client => {
         gameMoves[playerID] = "paper"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.sockets.emit(res, playerID); 
+            io.to("game-room").emit(res, playerID); 
         } else {
             client.emit("waiting-screen"); 
         }
@@ -39,7 +54,7 @@ io.on("connection", client => {
         gameMoves[playerID] = "scissors"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.sockets.emit(res, playerID); 
+            io.to("game-room").emit(res, playerID); 
         } else {
             client.emit("waiting-screen"); 
         }

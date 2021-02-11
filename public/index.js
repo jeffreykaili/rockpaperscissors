@@ -9,6 +9,10 @@ const gameScreen = document.querySelector('.game-screen');
 const drawScreen = document.querySelector('.draw-screen'); 
 const winScreen = document.querySelector('.win-screen'); 
 const loseScreen = document.querySelector('.lose-screen'); 
+const queueBtn = document.getElementById("queue"); 
+const homeScreen = document.querySelector(".home-screen"); 
+const queueScreen = document.querySelector(".queue-screen"); 
+
 let playerID; 
 
 rockBtn.addEventListener("click", function(){
@@ -24,6 +28,20 @@ paperBtn.addEventListener("click", function(){
 scissorsBtn.addEventListener("click", function(){
     gameScreen.style.display = "none"; 
     socket.emit("choice-scissors"); 
+}); 
+
+queueBtn.addEventListener("click", function(){
+    homeScreen.style.display = "none"; 
+    socket.emit("queue-game"); 
+}); 
+
+socket.on("game-start", () => {
+    queueScreen.style.display = "none";
+    gameScreen.style.display = "flex"; 
+}); 
+
+socket.on("queue-wait", ()=> {
+    queueScreen.style.display = "flex"; 
 }); 
 
 socket.on("set-playerID", (ID)=> {

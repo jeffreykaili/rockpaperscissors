@@ -23,6 +23,9 @@ button {
     margin: 15px; 
     border: 0.1em solid white;
     background-color: transparent; 
+    display: flex; 
+    text-align: center; 
+    justify-content: center;
 }
 
 button:hover {
@@ -31,10 +34,14 @@ button:hover {
     cursor: pointer; 
 }
 
-.waiting-screen, .win-screen, .lose-screen, .draw-screen {
+.waiting-screen, .win-screen, .lose-screen, .draw-screen, .queue-screen {
     font-family: 'Poppins'; 
     font-size: 35px; 
     align-items: center; 
     text-align: center;
+    display: none; 
+}
+
+.game-screen {
     display: none; 
 }
