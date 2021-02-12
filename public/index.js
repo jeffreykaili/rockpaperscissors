@@ -12,8 +12,9 @@ const loseScreen = document.querySelector('.lose-screen');
 const queueBtn = document.getElementById("queue"); 
 const homeScreen = document.querySelector(".home-screen"); 
 const queueScreen = document.querySelector(".queue-screen"); 
+const scoreText = document.getElementById("score-display");  
 
-let playerID; 
+let myID; 
 
 rockBtn.addEventListener("click", function(){
     gameScreen.style.display = "none"; 
@@ -45,29 +46,38 @@ socket.on("queue-wait", ()=> {
 }); 
 
 socket.on("set-playerID", (ID)=> {
-    playerID = ID; 
+    myID = ID; 
 }); 
 
-socket.on("draw", (ID) => {
+socket.on("draw", ({playerID, gameScoreA, gameScoreB}) => {
+    let scores = [gameScoreA, gameScoreB]; 
     waitingScreen.style.display = "none";
+    scoreText.innerText = "Score: " + scores[myID] + " (You) - " + scores[!myID?1:0] + " (Opponent)"; 
+    scoreText.style.display = "flex"; 
     drawScreen.style.display = "flex";
 }); 
 
-socket.on("win",(winnerID)=>{
+socket.on("win", ({playerID, gameScoreA, gameScoreB}) => {
+    let scores = [gameScoreA, gameScoreB]; 
     waitingScreen.style.display = "none";
-    if(playerID===winnerID) {
-        winScreen.style.display = "flex"; 
+    scoreText.innerText = "Score: " + scores[myID] + " (You) - " + scores[!myID?1:0] + " (Opponent)"; 
+    scoreText.style.display = "flex"; 
+    if (myID === playerID) {
+        winScreen.style.display = "flex";
     } else {
-        loseScreen.style.display = "flex"; 
+        loseScreen.style.display = "flex";
     }
 }); 
 
-socket.on("lose",(loserID)=>{
+socket.on("lose", ({playerID, gameScoreA, gameScoreB}) =>  {
+    let scores = [gameScoreA, gameScoreB]; 
     waitingScreen.style.display = "none";
-    if(playerID===loserID) {
-        loseScreen.style.display = "flex"; 
+    scoreText.innerText = "Score: " + scores[myID] + " (You) - " + scores[!myID?1:0] + " (Opponent)"; 
+    scoreText.style.display = "flex"; 
+    if (myID === playerID) {
+        loseScreen.style.display = "flex";
     } else {
-        winScreen.style.display = "flex"; 
+        winScreen.style.display = "flex";
     }
 }); 
 

@@ -34,7 +34,8 @@ button:hover {
     cursor: pointer; 
 }
 
-.waiting-screen, .win-screen, .lose-screen, .draw-screen, .queue-screen {
+.waiting-screen, .win-screen, .lose-screen, .draw-screen, .queue-screen{
+    flex-direction: column;
     font-family: 'Poppins'; 
     font-size: 35px; 
     align-items: center; 
@@ -44,4 +45,12 @@ button:hover {
 
 .game-screen {
     display: none; 
+}
+
+#score-display {
+    flex-direction: column;
+    font-family: 'Poppins'; 
+    font-size: 45px; 
+    align-items: center; 
+    text-align: center;
 }

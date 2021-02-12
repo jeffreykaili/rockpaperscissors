@@ -26,17 +26,19 @@
     <div class = "waiting-screen">
         <h1> Waiting for other player to select their move. </h1>
     </div>
-
-    <div class = "win-screen"> 
-        <h1> You Win! </h1>
-    </div>
-
-    <div class = "lose-screen">
-        <h1> You Lose! </h1>
-    </div>
-
-    <div class = "draw-screen">
-        <h1> It's a draw! </h1>
+    <div class = "game-update"> 
+        <div class = "win-screen"> 
+            <h1> You Win! </h1>
+        </div>
+    
+        <div class = "lose-screen">
+            <h1> You Lose! </h1>
+        </div>
+    
+        <div class = "draw-screen">
+            <h1> It's a draw! </h1>
+        </div>
+        <h1 id = "score-display"></h1> 
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="index.js"></script>

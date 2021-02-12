@@ -8,7 +8,7 @@ const server = http.createServer(app);
 app.use(express.static(path.join(__dirname,"public"))); 
 const io = socketio(server); 
 let userCount = 0; 
-const {moves, gameMoves} = require("./util/gameInfo"); 
+const {moves, gameMoves, gameScore} = require("./util/gameInfo"); 
 io.on("connection", client => {
     console.log("New User Connected! Total User Count:",++userCount); 
     const playerID = userCount-1; 
@@ -34,7 +34,12 @@ io.on("connection", client => {
         gameMoves[playerID] = "rock"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.to("game-room").emit(res, playerID); 
+            let gameScoreA = gameScore[0]; 
+            let gameScoreB = gameScore[1]; 
+            console.log("SCORE: ",gameScoreA, gameScoreB); 
+            io.to("game-room").emit(res, {playerID, gameScoreA, gameScoreB}); 
+            console.log("emitted", res, playerID); 
+
         } else {
             client.emit("waiting-screen"); 
         }
@@ -44,7 +49,12 @@ io.on("connection", client => {
         gameMoves[playerID] = "paper"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.to("game-room").emit(res, playerID); 
+            let gameScoreA = gameScore[0]; 
+            let gameScoreB = gameScore[1]; 
+            console.log("SCORE: ",gameScoreA, gameScoreB); 
+            io.to("game-room").emit(res, {playerID, gameScoreA, gameScoreB}); 
+            console.log("emitted", res, playerID); 
+
         } else {
             client.emit("waiting-screen"); 
         }
@@ -54,7 +64,11 @@ io.on("connection", client => {
         gameMoves[playerID] = "scissors"; 
         let res = check(playerID); 
         if(res !== false) {
-            io.to("game-room").emit(res, playerID); 
+            let gameScoreA = gameScore[0]; 
+            let gameScoreB = gameScore[1]; 
+            console.log("SCORE: ",gameScoreA, gameScoreB); 
+            io.to("game-room").emit(res, {playerID, gameScoreA, gameScoreB}); 
+            console.log("emitted", res, playerID); 
         } else {
             client.emit("waiting-screen"); 
         }
@@ -74,10 +88,12 @@ function check(playerID) {
         else if (moves[myMove] === enemyMove) {
             console.log(myMove, enemyMove, moves[myMove]); 
             console.log("WIN"); 
+            gameScore[playerID]++; 
             return "win"; 
         } 
         else {
             console.log("LOSE"); 
+            gameScore[!playerID?1:0]++; 
             return "lose"; 
         }
     }
