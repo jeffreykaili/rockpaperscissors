@@ -13,6 +13,7 @@ const queueBtn = document.getElementById("queue");
 const homeScreen = document.querySelector(".home-screen"); 
 const queueScreen = document.querySelector(".queue-screen"); 
 const scoreText = document.getElementById("score-display");  
+const countdownText = document.getElementById("countdown"); 
 
 let myID; 
 
@@ -55,6 +56,7 @@ socket.on("draw", ({playerID, gameScoreA, gameScoreB}) => {
     scoreText.innerText = "Score: " + scores[myID] + " (You) - " + scores[!myID?1:0] + " (Opponent)"; 
     scoreText.style.display = "flex"; 
     drawScreen.style.display = "flex";
+    countdown(); 
 }); 
 
 socket.on("win", ({playerID, gameScoreA, gameScoreB}) => {
@@ -66,6 +68,9 @@ socket.on("win", ({playerID, gameScoreA, gameScoreB}) => {
         winScreen.style.display = "flex";
     } else {
         loseScreen.style.display = "flex";
+    }
+    if(gameScoreA < 3 && gameScoreB < 3){
+        countdown(); 
     }
 }); 
 
@@ -79,8 +84,35 @@ socket.on("lose", ({playerID, gameScoreA, gameScoreB}) =>  {
     } else {
         winScreen.style.display = "flex";
     }
+    if(gameScoreA < 3 && gameScoreB < 3){
+        countdown(); 
+    }
+}); 
+
+socket.on("reset-round", ()=>{
+    loseScreen.style.display = "none";
+    winScreen.style.display = "none";
+    drawScreen.style.display = "none";
+    scoreText.style.display = "none"; 
+    countdownText.style.display = "none"; 
+    gameScreen.style.display = "flex"; 
 }); 
 
 socket.on("waiting-screen", ()=>{
     waitingScreen.style.display = "flex"; 
 }); 
+
+
+function countdown() {
+    var timeleft = 1; 
+    countdownText.innerHTML = 3; 
+    countdownText.style.display = "flex"; 
+    var downloadTimer = setInterval(function(){
+        if(3 - timeleft <= 0){
+            clearInterval(downloadTimer);
+            socket.emit("reset-round"); 
+        }
+        countdownText.innerHTML = 3 - timeleft;
+        timeleft += 1;
+    }, 1000);
+}

@@ -47,10 +47,15 @@ button:hover {
     display: none; 
 }
 
-#score-display {
+#score-display, #countdown {
     flex-direction: column;
     font-family: 'Poppins'; 
     font-size: 45px; 
     align-items: center; 
     text-align: center;
+}
+
+#countdown {
+    display: none; 
+    font-size: 30px; 
 }

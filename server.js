@@ -54,7 +54,6 @@ io.on("connection", client => {
             console.log("SCORE: ",gameScoreA, gameScoreB); 
             io.to("game-room").emit(res, {playerID, gameScoreA, gameScoreB}); 
             console.log("emitted", res, playerID); 
-
         } else {
             client.emit("waiting-screen"); 
         }
@@ -72,6 +71,11 @@ io.on("connection", client => {
         } else {
             client.emit("waiting-screen"); 
         }
+    }); 
+
+    client.on("reset-round", function() {
+        gameMoves[0] = gameMoves[1] = ""; 
+        io.to("game-room").emit("reset-round"); 
     }); 
 }); 
 function check(playerID) {
@@ -99,5 +103,6 @@ function check(playerID) {
     }
     return false; 
 }
+
 
 server.listen(5000, () => console.log("Server Started on port 5000.")); 
